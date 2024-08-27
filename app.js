@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const { waitAndClick } = require("./utils");
 const browserOpenPromise = puppeteer.launch({
     headless: false,
     slowMo: 25,
