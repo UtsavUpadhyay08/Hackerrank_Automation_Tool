@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const { waitAndClick } = require("./utils");
+const { waitAndClick, questionSolver } = require("./utils");
 const browserOpenPromise = puppeteer.launch({
     headless: false,
     // slowMo: 25,
@@ -12,7 +12,7 @@ const password = process.env.USER_PASSWORD;
 let page;
 
 browserOpenPromise.then(function (browserContext) {
-    let browserPage = browserContext.newPage();
+    const browserPage = browserContext.newPage();
     return browserPage;
 })
     .then(function (newTab) {
@@ -39,5 +39,16 @@ browserOpenPromise.then(function (browserContext) {
     })
     .then(function () {
         return waitAndClick('input[value="warmup"]', page);
+    })
+    .then(function () {
+        return new Promise(r => setTimeout(r, 3000));
+    })
+    .then(function () {
+        const challenges = page.$$(".ui-btn.ui-btn-normal.primary-cta.ui-btn-line-primary.ui-btn-styled", { delay: 3000 });
+        return challenges;
+    })
+    .then(function (challenges) {
+        console.log(challenges.length);
+        return questionSolver(page, challenges[0], "sol");
     })
     .catch((err) => console.log(err));
