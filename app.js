@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const { waitAndClick } = require("./utils");
 const browserOpenPromise = puppeteer.launch({
     headless: false,
-    slowMo: 25,
+    // slowMo: 25,
     defaultViewport: null
 });
 
@@ -33,5 +33,11 @@ browserOpenPromise.then(function (browserContext) {
     })
     .then(function () {
         return page.click('button[data-hr-focus-item="private"]');
+    })
+    .then(function () {
+        return waitAndClick('a[data-attr1="algorithms"]', page);
+    })
+    .then(function () {
+        return waitAndClick('input[value="warmup"]', page);
     })
     .catch((err) => console.log(err));

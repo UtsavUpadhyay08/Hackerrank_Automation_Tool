@@ -1,6 +1,6 @@
 module.exports.waitAndClick = function (selector, cPage) {
     return new Promise(function (resolve, reject) {
-        let waitForSelectorPromise = cPage.waitForSeletor(selector);
+        let waitForSelectorPromise = cPage.waitForSelector(selector);
         waitForSelectorPromise.then(function () {
             return cPage.click(selector);
         })
