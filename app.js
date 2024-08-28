@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 const { waitAndClick, questionSolver } = require("./utils");
+const { answerObj } = require("./codes");
 const browserOpenPromise = puppeteer.launch({
     headless: false,
     // slowMo: 25,
@@ -48,7 +49,7 @@ browserOpenPromise.then(function (browserContext) {
         return challenges;
     })
     .then(function (challenges) {
-        console.log(challenges.length);
-        return questionSolver(page, challenges[0], "sol");
+        // console.log(challenges.length);
+        return questionSolver(page, challenges[0], answerObj.answers[0]);
     })
     .catch((err) => console.log(err));

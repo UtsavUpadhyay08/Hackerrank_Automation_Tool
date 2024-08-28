@@ -15,14 +15,45 @@ module.exports.questionSolver = function (page, question, answer) {
     return new Promise(function (resolve, reject) {
         const questionCLickPromise = question.click();
         questionCLickPromise.then(function () {
-            return waitAndClick('button[aria-label="Disable Autocomplete"]', page);
+            return waitAndClick('.monaco-editor.no-user-select.showUnused.showDeprecated.vs', page);
         })
-            // .then(function () {
-            //     return page.waitForSelector('div[role="code"]');
-            // })
-            // .then(function () {
-            //     return page.type('div[role="code"]', "lmnk");
-            // })
+            .then(function () {
+                return waitAndClick('input.checkbox-input', page);
+            })
+            .then(function () {
+                return page.waitForSelector('textarea[id="input-1"]');
+            })
+            .then(function () {
+                return page.type('textarea[id="input-1"]', answer);
+            })
+            .then(function () {
+                return page.keyboard.down("Control");
+            })
+            .then(function () {
+                return page.keyboard.press("A");
+            })
+            .then(function () {
+                return page.keyboard.press("X");
+            })
+            .then(function () {
+                return waitAndClick('.monaco-editor.no-user-select.showUnused.showDeprecated.vs', page);
+            })
+            .then(function () {
+                return page.keyboard.down("Control");
+            })
+            .then(function () {
+                return page.keyboard.press("A");
+            })
+            .then(function () {
+                return page.keyboard.press("V");
+            })
+            .then(function () {
+                return waitAndClick('button.ui-btn.ui-btn-normal.ui-btn-primary.pull-right.hr-monaco-submit.ui-btn-styled', page);
+            })
+            .then(function () {
+                resolve();
+            })
+            .catch((err) => reject())
     })
 }
 
