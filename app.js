@@ -3,7 +3,6 @@ const { waitAndClick, questionSolver } = require("./utils");
 const { answerObj } = require("./codes");
 const browserOpenPromise = puppeteer.launch({
     headless: false,
-    // slowMo: 25,
     defaultViewport: null
 });
 
@@ -39,7 +38,7 @@ browserOpenPromise.then(function (browserContext) {
         return waitAndClick('a[data-attr1="algorithms"]', page);
     })
     .then(function () {
-        return waitAndClick('input[value="warmup"]', page);
+        return waitAndClick('input[value="warmup"]', page, { delay: 1000 });
     })
     .then(function () {
         return new Promise(r => setTimeout(r, 3000));
@@ -52,4 +51,9 @@ browserOpenPromise.then(function (browserContext) {
         // console.log(challenges.length);
         return questionSolver(page, challenges[0], answerObj.answers[0]);
     })
+    // .then(function (challenges) {                                    //For whole of the challenges array
+    //     return Promise.all(challenges.map((challenge, index) => 
+    //         questionSolver(page, challenge, answerObj.answers[index])
+    //     ));
+    // })
     .catch((err) => console.log(err));
