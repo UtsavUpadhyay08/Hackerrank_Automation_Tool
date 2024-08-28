@@ -1,60 +1,40 @@
-const waitAndClick = function (selector, cPage) {
-    return new Promise(function (resolve, reject) {
-        const waitForSelectorPromise = cPage.waitForSelector(selector);
-        waitForSelectorPromise.then(function () {
-            return cPage.click(selector);
-        })
-            .then(function () {
-                resolve();
-            })
-            .catch((err) => reject())
-    });
-}
+const waitAndClick = async function (selector, cPage) {
+    try {
+        await cPage.waitForSelector(selector);
+        await cPage.click(selector);
+    } catch (err) {
+        throw err;
+    }
+};
 
-module.exports.questionSolver = function (page, question, answer) {
-    return new Promise(function (resolve, reject) {
-        const questionCLickPromise = question.click();
-        questionCLickPromise.then(function () {
-            return waitAndClick('.monaco-editor.no-user-select.showUnused.showDeprecated.vs', page);
-        })
-            .then(function () {
-                return waitAndClick('input.checkbox-input', page);
-            })
-            .then(function () {
-                return page.waitForSelector('textarea[id="input-1"]');
-            })
-            .then(function () {
-                return page.type('textarea[id="input-1"]', answer,{delay:0});
-            })
-            .then(function () {
-                return page.keyboard.down("Control");
-            })
-            .then(function () {
-                return page.keyboard.press("A", { delay: 1000 });
-            })
-            .then(function () {
-                return page.keyboard.press("X", { delay: 1000 });
-            })
-            .then(function () {
-                return waitAndClick('.monaco-editor.no-user-select.showUnused.showDeprecated.vs', page);
-            })
-            .then(function () {
-                return page.keyboard.press("A", { delay: 1000 });
-            })
-            .then(function () {
-                return page.keyboard.press("V", { delay: 1000 });
-            })
-            .then(function () {
-                return page.keyboard.up("Control");
-            })
-            .then(function () {
-                return waitAndClick('button.ui-btn.ui-btn-normal.ui-btn-primary.pull-right.hr-monaco-submit.ui-btn-styled', page);
-            })
-            .then(function () {
-                resolve();
-            })
-            .catch((err) => reject())
-    })
-}
+module.exports.questionSolver = async function (page, question, answer) {
+    try {
+        await question.click();
+        await waitAndClick('.monaco-editor.no-user-select.showUnused.showDeprecated.vs', page);
+        await waitAndClick('input.checkbox-input', page);
+        await page.waitForSelector('textarea[id="input-1"]');
+        await page.type('textarea[id="input-1"]', answer, {
+            delay: 0
+        });
+        await page.keyboard.down("Control");
+        await page.keyboard.press("A", {
+            delay: 1000
+        });
+        await page.keyboard.press("X", {
+            delay: 1000
+        });
+        await waitAndClick('.monaco-editor.no-user-select.showUnused.showDeprecated.vs', page);
+        await page.keyboard.press("A", {
+            delay: 1000
+        });
+        await page.keyboard.press("V", {
+            delay: 1000
+        });
+        await page.keyboard.up("Control");
+        await waitAndClick('button.ui-btn.ui-btn-normal.ui-btn-primary.pull-right.hr-monaco-submit.ui-btn-styled', page);
+    } catch (err) {
+        throw err;
+    }
+};
 
 module.exports.waitAndClick = waitAndClick;
