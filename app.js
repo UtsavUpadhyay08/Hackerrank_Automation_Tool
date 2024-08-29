@@ -18,10 +18,10 @@ let page;
         await page.goto(SITE_LINK);
 
         await page.waitForSelector("input[type='text']");
-        await page.type("input[type='text']", "yidoton361@kwalah.com");
+        await page.type("input[type='text']", email);
 
         await page.waitForSelector("input[type='password']");
-        await page.type("input[type='password']", "yidoton361@kwalah.com");
+        await page.type("input[type='password']", password);
 
         await page.click('button[data-hr-focus-item="private"]');
 
